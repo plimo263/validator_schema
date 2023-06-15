@@ -3,6 +3,8 @@
 Esta é uma lib usada para validar que vem de um jsonschema em API Rest. A capacidade de validação dele
 vem de expressões regulares, strings, numeros, enums, datas (formato YYYY-MM-DD) e hora (formato HH:MM)
 
+[MANUAL DA API ](https://plimo263.github.io/validator_schema/)
+
 ## INSTALAÇÃO
 
 Para realizar a instalação deste módulo basta executar
@@ -28,18 +30,22 @@ from validator_schema import ValidatorString, Validator
 def login():
     data = request.get_json()
 
+    # An list of validators (required for Validator)
     list_validators = [
         ValidatorString('name', min = 1, msg_error = 'Field name without value'),
-        ValidatorString('password', min = 8, msg_error = 'Field password minimum 8 caracters.)
+        ValidatorString('password', min = 8, msg_error = 'Field password minimum 8 caracters.')
     ]
+    # An list of names requireds (required for Validator)
     requireds = ['name', 'password']
 
+    # Object Validator for validation
     v = Validator(list_validators, requireds)
 
     try:
         v.is_valid(data)
-    except ValueError as err:
+    except ValueError as err: # One of fields not accepts
         return json.dumps({'error': str(err)})
-    # Fields validates
+
+    # Fields validates with success
 
 ```
